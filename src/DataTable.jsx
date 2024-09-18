@@ -2,7 +2,7 @@ import React from 'react';
 
 function DataTable({keyValuePairs}) {
     return (
-    <section className="resize-y overflow-y-scroll h-2/3 bg-flex bg-slate-900">
+    <section className={`overflow-y-scroll h-full bg-flex bg-slate-900`}>
         <table className=" bg-transparent table-auto text-white border-gray-700 border-separate">
             <colgroup>
                 <col className="w-2"/>

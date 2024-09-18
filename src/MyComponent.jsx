@@ -1,14 +1,13 @@
 import React from "react";
 import SidebarButton from './SidebarButton';
-import QueryTable from './QueryTable';
-import DataTable from './DataTable';
+import RightPanel from './RightPanel';
 
 function MyComponent() {
     const sidebarButtons = [
-        { text: "PUT", bgColor: "bg-amber-600" },
-        { text: "GET", bgColor: "bg-slate-600" },
-        { text: "RANGE", bgColor: "bg-slate-600" },
-        { text: "DELETE", bgColor: "bg-rose-700" }
+        { text: "PUT", bgColor: "bg-[#C97539]" },
+        { text: "GET", bgColor: "bg-[#355F7D]"},
+        { text: "RANGE", bgColor: "bg-[#355F7D]" },
+        { text: "DELETE", bgColor: "bg-[#B84040]" }
     ];
 
     const keyValuePairs = [
@@ -29,28 +28,23 @@ function MyComponent() {
     ];
 
     const queryResults = [
-        { query: "PUT B0031 0", executionTime: "2", result: "Success" },
-        { query: "RANGE B0021 B0103", executionTime: "12", result: "Success" },
-        { query: "DELETE B0021", executionTime: "4", result: "Success" },
-        { query: "GET B0033", executionTime: "3", result: "Success" },
-        { query: "GET B0031", executionTime: "2", result: "Success" }
+        { query: "PUT B0031 0", executionTime: "2", result: "Success", rows: 1},
+        { query: "RANGE B0021 B0103", executionTime: "12", result: "Success", rows: 14},
+        { query: "DELETE B0021", executionTime: "4", result: "Success", rows: 1},
+        { query: "GET B0033", executionTime: "3", result: "Success", rows: 1},
+        { query: "GET B0031", executionTime: "2", result: "Success", rows: 1 }
     ];
 
     return (
             <div className="overflow-hidden flex">
-                <aside className="flex flex-col w-3/12 h-screen">
+                <aside className="flex flex-col w-3/12 h-screen border-r-4 border-gray-700">
                     <nav className="flex flex-col grow px-9 pt-7 w-full text-3xl text-white whitespace-nowrap border border-solid bg-slate-800 border-zinc-700 pb-[618px] max-md:px-5 max-md:pb-24">
                         {sidebarButtons.map((button, index) => (
                             <SidebarButton key={index} text={button.text} bgColor={button.bgColor} />
                         ))}
                     </nav>
                 </aside>
-                <main className="w-9/12 h-screen">
-                    <div className="flex flex-col h-screen">
-                        <DataTable keyValuePairs = {keyValuePairs}/>
-                        <QueryTable queryResults = {queryResults}/>
-                    </div>
-                </main>
+                <RightPanel keyValuePairs={keyValuePairs} queryResults={queryResults}/>
             </div>
     );
 }
