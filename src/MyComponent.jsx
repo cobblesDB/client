@@ -1,15 +1,8 @@
 import React from "react";
-import SidebarButton from './SidebarButton';
-import RightPanel from './RightPanel';
+import MainPanel from './MainPanel';
+import SidePanel from './SidePanel';
 
 function MyComponent() {
-    const sidebarButtons = [
-        { text: "PUT", bgColor: "bg-[#C97539]" },
-        { text: "GET", bgColor: "bg-[#355F7D]"},
-        { text: "RANGE", bgColor: "bg-[#355F7D]" },
-        { text: "DELETE", bgColor: "bg-[#B84040]" }
-    ];
-
     const keyValuePairs = [
         { lineNumber: "1", key: "B0024", value: "4" },
         { lineNumber: "2", key: "B0027", value: "21" },
@@ -37,14 +30,8 @@ function MyComponent() {
 
     return (
             <div className="overflow-hidden flex">
-                <aside className="flex flex-col w-3/12 h-screen border-r-4 border-gray-700">
-                    <nav className="flex flex-col grow px-9 pt-7 w-full text-3xl text-white whitespace-nowrap border border-solid bg-slate-800 border-zinc-700 pb-[618px] max-md:px-5 max-md:pb-24">
-                        {sidebarButtons.map((button, index) => (
-                            <SidebarButton key={index} text={button.text} bgColor={button.bgColor} />
-                        ))}
-                    </nav>
-                </aside>
-                <RightPanel keyValuePairs={keyValuePairs} queryResults={queryResults}/>
+                <SidePanel />
+                <MainPanel keyValuePairs={keyValuePairs} queryResults={queryResults}/>
             </div>
     );
 }

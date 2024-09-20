@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import QueryTable from './QueryTable';
 import DataTable from './DataTable';
 
-const RightPanel = ({ keyValuePairs, queryResults }) => {
+const MainPanel = ({ keyValuePairs, queryResults }) => {
     // 상태로 DataTable과 QueryTable의 높이를 관리
     const [dataTableHeight, setDataTableHeight] = useState(65);
     const [queryTableHeight, setQueryTableHeight] = useState(35);
@@ -68,4 +68,4 @@ const RightPanel = ({ keyValuePairs, queryResults }) => {
     );
 };
 
-export default RightPanel;
+export default MainPanel;
