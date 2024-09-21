@@ -40,13 +40,13 @@ const MainPanel = ({ keyValuePairs, queryResults }) => {
         })};
 
     return (
-        <main className="w-9/12 h-screen bg-slate-900">
+        <main className="w-9/12 h-screen bg-gray-900">
             <div className="flex flex-col h-full">
                 {/* DataTable */}
                 <div
                     style={{height: `${dataTableHeight}%`}}
                 >
-                    {keyValuePairs, keyValuePairs.length > 0 ? (
+                    {keyValuePairs, keyValuePairs.length > 0 && (keyValuePairs[0].value != null) ? (
                         <DataTable keyValuePairs={keyValuePairs} height={dataTableHeight}/>
                         ) : (
                     <div className="flex flex-col justify-center items-center h-full">

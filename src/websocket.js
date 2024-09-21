@@ -10,10 +10,12 @@ class WebSocketService {
 
             this.socket.onopen = () => {
                 console.log('connection to ', this.url, ' established');
+                resolve();
             }
 
             this.socket.onerror = (error) => {
                 console.error('WebSocket error: ', error);
+                reject();
             }
 
             this.socket.onclose = () => {
@@ -33,7 +35,8 @@ class WebSocketService {
 
     onMessage(callback) {
         if (this.socket) {
-            this.socket.onMessage = (event) => {
+            this.socket.onmessage = (event) => {
+                console.log(event.data);
                 const data = JSON.parse(event.data);
                 callback(data);
             };

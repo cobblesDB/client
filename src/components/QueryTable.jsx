@@ -19,14 +19,14 @@ function QueryTable({queryResults}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {queryResults.map((result, index) => (
+                    {queryResults && queryResults.map((result, index) => (
                         <tr
                             key={index}
                             className={`border-gray-700 border-4`}
                         >
-                            <td className={`text-left text-white text-2xl h-12 border-gray-700 p-4`}>{result.query}</td>
+                            <td className={`text-left text-white text-2xl h-12 border-gray-700 p-4`}>{result.query} {result.queryData && Object.values(result.queryData).join(' ')}</td>
                             <td className={`text-left text-white text-2xl h-12 border-l-4 border-gray-700 p-4`}>{result.executionTime}</td>
-                            <td className={`text-left text-white text-2xl h-12 border-r-4 border-l-4 border-gray-700 p-4`}>{result.result}</td>
+                            <td className={`text-left text-white text-2xl h-12 border-r-4 border-l-4 border-gray-700 p-4`}>{result.success}</td>
                             <td className={`text-left text-white text-2xl h-12 border-r-4 border-l-4 border-gray-700 p-4`}>{result.rows}</td>
                         </tr>
                     ))}

@@ -1,8 +1,42 @@
-import React from 'react';
+import React,{useRef, useState} from 'react';
+import CustomAlert from './CustomAlert';
+import timerManager from '../utils/timerManager';
 
-const CustomForm = ({ formData, onSubmit }) => {
+const CustomForm = ({ query, formData, onSubmit }) => {
+    const inputRefs = useRef({});
+    const [alertMessage, setAlertMessage] = useState(null);
+    const [alertHeader, setAlertHeader] = useState(null);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const newId = new Date().getTime();
+
+        const formDataObj = {
+            id: newId,
+            query: query,
+            data:{}
+        };
+
+        let isAllVerified = true;
+        formData.forEach((field) => {
+            if (!inputRefs.current[field.name].value.trim()) {
+                setAlertMessage(`${field.label} is required`);
+                setAlertHeader(`Caution`);
+                isAllVerified = false;
+                return;
+            }
+            formDataObj.data[field.name] = inputRefs.current[field.name].value;
+        });
+
+        if (isAllVerified) {
+            timerManager.start(newId);
+            onSubmit(formDataObj);
+        }
+    }
+
     return (
-        <form className="bg-transparent py-4 flex flex-col h-full" onSubmit={onSubmit}>
+        <form className="bg-transparent py-4 flex flex-col h-full" onSubmit={handleSubmit}>
             {
                 formData.map((field, index) => (
                     <div className="w-full p-1 flex mb-1 justify-end items-center">
@@ -12,8 +46,20 @@ const CustomForm = ({ formData, onSubmit }) => {
                         <input
                             type={field.type}
                             name={field.name}
+                            ref={(el) => (inputRefs.current[field.name] = el)}
                             className="w-full bg-slate-900 text-sm p-2"
                         />
+
+                        {alertMessage && (
+                            <CustomAlert
+                                body={alertMessage}
+                                subject={alertHeader}
+                                onClose={() => {
+                                    setAlertMessage(null);
+                                    setAlertHeader(null);
+                                }} // 알림 닫기
+                            />
+                        )}
                     </div>
                 ))
             }

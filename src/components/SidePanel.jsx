@@ -39,7 +39,7 @@ const formDatas = new Map([
     ]
 );
 
-const SidePanel = () => {
+const SidePanel = ({webSocketService}) => {
     const [activeForm, setActiveForm] = useState(null);
 
     const handleButtonClick = (formType) => {
@@ -50,10 +50,9 @@ const SidePanel = () => {
         }
     };
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
+    const handleFormSubmit = (formDataObj) => {
         // 폼 제출 시 처리할 로직
-        console.log("Form submitted");
+        webSocketService.sendMessage(formDataObj);
     };
 
     return (
@@ -68,6 +67,7 @@ const SidePanel = () => {
                         />
                         {activeForm === button.text && (
                             <CustomForm
+                                query={button.text}
                                 formData={formDatas.get(button.text)}
                                 onSubmit={handleFormSubmit}
                                 />

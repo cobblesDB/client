@@ -2,23 +2,67 @@ import React, {useState, useEffect } from "react";
 import MainPanel from './MainPanel';
 import WebSocketService from '../websocket.js';
 import SidePanel from './SidePanel';
+import CustomAlert from './CustomAlert';
+import timerManager from '../utils/timerManager';
+import QueryLocalStorageManager from '../utils/queryLocalStorageManager';
 
 const MainDisplay = () => {
     const [webSocketService, setWebSocketService] = useState(null);
-    const [message, setMessage] = useState('');
     const [keyValuePairs, setKeyValuePairs] = useState([]);
+    const [alertMessage, setAlertMessage] = useState(null);
+    const [alertHeader, setAlertHeader] = useState(null);
+    const [queryInfo, setQueryInfo] = useState(null);
+    const [queryLocalStorageManager, setQueryLocalStorageManager] = useState(null);
 
     useEffect(() => {
         const wsService = new WebSocketService('ws://localhost:8080');
+        localStorage.setItem("queryInfos", JSON.stringify([]));
+
         wsService.connect()
             .then(() => {
+                wsService.onMessage((input) => {
+                    const time = timerManager.stop(input.id);
+                    console.log(time);
+
+                    if (input.query === "PUT" || input.query === "DELETE") {
+                        setAlertMessage(input.message);
+                        setAlertHeader(input.success);
+                        const queryInfos = JSON.parse(localStorage.getItem("queryInfos"));
+                        queryInfos.push({
+                            id: input.id,
+                            executionTime: time,
+                            query: input.query,
+                            queryData: input.queryData,
+                            success: input.success,
+                            rows: input.outputData.length
+                        });
+                        localStorage.setItem("queryInfos", JSON.stringify(queryInfos));
+
+                    }
+                    else if (input.query === "GET" || input.query === "RANGE") {
+                        setKeyValuePairs(input.outputData);
+                        const queryInfos = JSON.parse(localStorage.getItem("queryInfos"));
+                        queryInfos.push({
+                            id: input.id,
+                            executionTime: time,
+                            query: input.query,
+                            queryData: input.queryData,
+                            success: input.success,
+                            rows: input.outputData.length
+                        });
+                        localStorage.setItem("queryInfos", JSON.stringify(queryInfos));
+                    }
+                });
                 //서버에서 key-value 테이블 결과를 얻음
+                /*
                 wsService.onMessage((data) => {
                     setKeyValuePairs(data.keyValuePairs);
                 });
+                 */
             })
             .catch((error) => {
-                console.error('connection error:', error);
+                setAlertMessage("네트워크에 문제가 발생했어요.");
+                setAlertHeader("error");
             });
 
         setWebSocketService(wsService);
@@ -47,6 +91,7 @@ const MainDisplay = () => {
     ];
      */
 
+    /*
     const queryResults = [
         { query: "PUT B0031 0", executionTime: "2", result: "Success", rows: 1},
         { query: "RANGE B0021 B0103", executionTime: "12", result: "Success", rows: 14},
@@ -54,11 +99,25 @@ const MainDisplay = () => {
         { query: "GET B0033", executionTime: "3", result: "Success", rows: 1},
         { query: "GET B0031", executionTime: "2", result: "Success", rows: 1 }
     ];
+     */
+
+    const queryResults = JSON.parse(localStorage.getItem("queryInfos"));
 
     return (
         <div className="overflow-hidden flex">
-            <SidePanel />
-            <MainPanel keyValuePairs={keyValuePairs} queryResults={queryResults}/>
+            <SidePanel webSocketService={webSocketService}/>
+            <MainPanel keyValuePairs={keyValuePairs} queryResults={queryResults.slice().reverse()}/>
+
+            {alertMessage && (
+                <CustomAlert
+                    body={alertMessage}
+                    subject={alertHeader}
+                    onClose={() => {
+                        setAlertMessage(null);
+                        setAlertHeader(null);
+                    }} // 알림 닫기
+                />
+            )}
         </div>
     );
 }
