@@ -21,4 +21,22 @@
 1. npm install로 의존성 설치
 2. npm install -D tailwindcss postcss autoprefixer로 tailwind 의존성 다운로드
 3. npx tailwindcss init으로 tailwind 의존성 init
-4. tailwind.config.js의 content에 "./src/**/*.{jsx,js}" 입력
+4. tailwind.config.js를 다음과 같이 작성
+
+```javascript
+/** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
+
+module.exports = {
+  content: ["./src/**/*.{jsx,js}"],
+  theme: {
+    extend: {
+      colors: {
+        'matisse': '#355F7D',
+      },
+    },
+    extend: {},
+  },
+  plugins: [],
+}
+```
