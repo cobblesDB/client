@@ -4,7 +4,6 @@ import WebSocketService from '../websocket.js';
 import SidePanel from './SidePanel';
 import CustomAlert from './CustomAlert';
 import timerManager from '../utils/timerManager';
-import QueryLocalStorageManager from '../utils/queryLocalStorageManager';
 
 const MainDisplay = () => {
     const [webSocketService, setWebSocketService] = useState(null);
@@ -15,7 +14,7 @@ const MainDisplay = () => {
     const [queryLocalStorageManager, setQueryLocalStorageManager] = useState(null);
 
     useEffect(() => {
-        const wsService = new WebSocketService('ws://localhost:8080');
+        const wsService = new WebSocketService(process.env.REACT_APP_API_URL);
         localStorage.setItem("queryInfos", JSON.stringify([]));
 
         wsService.connect()
