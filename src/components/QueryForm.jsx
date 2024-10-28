@@ -40,14 +40,14 @@ const CustomForm = ({ query, formData, onSubmit }) => {
             {
                 formData.map((field, index) => (
                     <div className="w-full p-1 flex mb-1 justify-end items-center">
-                        <label className="text-white text-right text-sm mr-4 w-1/5 bg-transparent">
+                        <label className="text-white text-right text-sm md:text-xs mr-4 w-1/5 bg-transparent">
                             {field.label}
                         </label>
                         <input
                             type={field.type}
                             name={field.name}
                             ref={(el) => (inputRefs.current[field.name] = el)}
-                            className="w-full bg-slate-900 text-sm p-2"
+                            className="w-full bg-slate-900 text-sm md:text-xs p-2"
                         />
 
                         {alertMessage && (
@@ -64,7 +64,7 @@ const CustomForm = ({ query, formData, onSubmit }) => {
                 ))
             }
 
-            <button type="submit" className="bg-[#355F7D] py-1 px-1 w-1/3 text-sm mt-2 text-white rounded-xl ml-auto">
+            <button type="submit" className="bg-[#355F7D] py-1 px-1 w-1/3 text-sm md:text-xs mt-2 text-white rounded-xl ml-auto">
                 execute
             </button>
         </form>

@@ -61,7 +61,7 @@ const MainDisplay = () => {
             })
             .catch((error) => {
                 setAlertMessage("네트워크에 문제가 발생했어요.");
-                setAlertHeader("error");
+                setAlertHeader("ERROR");
             });
 
         setWebSocketService(wsService);
@@ -105,7 +105,7 @@ const MainDisplay = () => {
     return (
         <div className="overflow-hidden flex">
             <SidePanel webSocketService={webSocketService}/>
-            <MainPanel keyValuePairs={keyValuePairs} queryResults={queryResults.slice().reverse()}/>
+            <MainPanel keyValuePairs={keyValuePairs} queryResults={queryResults && queryResults.slice().reverse()}/>
 
             {alertMessage && (
                 <CustomAlert

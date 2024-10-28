@@ -40,7 +40,7 @@ const MainPanel = ({ keyValuePairs, queryResults }) => {
         })};
 
     return (
-        <main className="w-9/12 h-screen bg-gray-900">
+        <main className="w-9/12 md:w-[80%] h-screen bg-gray-900">
             <div className="flex flex-col h-full">
                 {/* DataTable */}
                 <div
@@ -50,8 +50,8 @@ const MainPanel = ({ keyValuePairs, queryResults }) => {
                         <DataTable keyValuePairs={keyValuePairs} height={dataTableHeight}/>
                         ) : (
                     <div className="flex flex-col justify-center items-center h-full">
-                        <img src="/box_1011831.png" alt="No data" className="w-48 h-48 mb-1"/>
-                        <p className="text-gray-600 text-2xl">검색 결과를 찾을 수 없어요</p>
+                        <img src="/box_1011831.png" alt="No data" className="w-48 h-48 md:w-36 md:h-36 mb-1"/>
+                        <p className="text-gray-600 text-2xl md:text-xl">검색 결과를 찾을 수 없어요</p>
                     </div>
                 )}
 

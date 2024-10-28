@@ -56,7 +56,7 @@ const SidePanel = ({webSocketService}) => {
     };
 
     return (
-        <aside className="flex flex-col w-3/12 h-screen border-r-4 border-gray-700">
+        <aside className="flex flex-col w-3/12 md:w-[20%] h-screen border-r-4 md:border-r-2 border-gray-700">
             <nav className="flex flex-col grow px-9 pt-7 w-full text-3xl text-white whitespace-nowrap border border-solid bg-slate-800 border-zinc-700 pb-[618px] max-md:px-5 max-md:pb-24">
                 {sidebarButtons.map((button, index) => (
                     <div key={index}>
