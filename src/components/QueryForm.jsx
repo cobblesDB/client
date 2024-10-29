@@ -20,12 +20,15 @@ const CustomForm = ({ query, formData, onSubmit }) => {
 
         let isAllVerified = true;
         formData.forEach((field) => {
-            if (!inputRefs.current[field.name].value.trim()) {
-                setAlertMessage(`${field.label} is required`);
-                setAlertHeader(`Caution`);
+            const fieldValue = inputRefs.current[field.name].value.trim();
+
+            if (!fieldValue) {
+                setAlertMessage(`${field.label} 에 값을 입력해주세요.`);
+                setAlertHeader(`CAUTION`);
                 isAllVerified = false;
                 return;
             }
+
             formDataObj.data[field.name] = inputRefs.current[field.name].value;
         });
 

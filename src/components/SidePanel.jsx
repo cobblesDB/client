@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import SidebarButton from './SidebarButton';
 import CustomForm from './QueryForm';
+import FileInput from './FileInput';
 
 const sidebarButtons = [
     { text: "PUT", bgColor: "bg-[#C97539]" },
+    { text: "UPLOAD CSV", bgColor: "bg-[#C97539]"},
     { text: "GET", bgColor: "bg-[#355F7D]"},
     { text: "RANGE", bgColor: "bg-[#355F7D]" },
     { text: "DELETE", bgColor: "bg-[#B84040]" }
@@ -15,6 +17,12 @@ const formDatas = new Map([
             [
                 {label: "key:", type: "text", name: "key"},
                 {label: "value:", type: "text", name: "value"}
+            ]
+        ],
+        [
+            "UPLOAD CSV",
+            [
+                {type: "file", name: "upload"}
             ]
         ],
         [
@@ -66,11 +74,15 @@ const SidePanel = ({webSocketService}) => {
                             onClick={() => handleButtonClick(button.text)}
                         />
                         {activeForm === button.text && (
-                            <CustomForm
-                                query={button.text}
-                                formData={formDatas.get(button.text)}
-                                onSubmit={handleFormSubmit}
+                            button.text === "UPLOAD CSV" ? (
+                                <FileInput/>
+                                ) : (
+                                <CustomForm
+                                    query={button.text}
+                                    formData={formDatas.get(button.text)}
+                                    onSubmit={handleFormSubmit}
                                 />
+                            )
                         )}
                     </div>
 
