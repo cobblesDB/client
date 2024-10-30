@@ -64,6 +64,7 @@ const FileInput = ({webSocketService}) => {
             reader.readAsText(selectedFile);
 
             setSelectedFile(null);
+            inputRef.current.value = null;
             // CSV 파일을 텍스트로 읽기
         } else {
             setIsNotFileUploaded(true);
@@ -108,7 +109,7 @@ const FileInput = ({webSocketService}) => {
                 />
             )}
 
-            <input id="file" type="file" ref={inputRef} className="hidden"/>
+            <input id="file" type="file" ref={inputRef} accept=".csv" className="hidden"/>
         </div>
 
 
