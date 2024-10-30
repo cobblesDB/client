@@ -75,7 +75,7 @@ const SidePanel = ({webSocketService}) => {
                         />
                         {activeForm === button.text && (
                             button.text === "UPLOAD CSV" ? (
-                                <FileInput/>
+                                <FileInput webSocketService={webSocketService}/>
                                 ) : (
                                 <CustomForm
                                     query={button.text}

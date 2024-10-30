@@ -2,10 +2,11 @@ import React, {useRef, useEffect, useCallback, useState} from "react";
 import CustomAlert from './CustomAlert';
 import '../style.css';
 
-const FileInput = () => {
+const FileInput = (webSocketService) => {
     const inputRef = useRef();
     const [selectedFile, setSelectedFile] = useState(null);
     const [isNotCsvFile, setIsNotCsvFile] = useState(null);
+    const [isNotFileUploaded, setIsNotFileUploaded] = useState(null);
 
     const fileInputHandler = useCallback((event) => {
         const files = event.target && event.target.files;
@@ -17,7 +18,7 @@ const FileInput = () => {
                 setSelectedFile(file.name);
             } else {
                 setSelectedFile(null);
-                setIsNotCsvFile(false);
+                setIsNotCsvFile(true);
             }
         }
     }, []);
@@ -33,6 +34,29 @@ const FileInput = () => {
 
     const handleFileUploadClick = () => {
         inputRef.current.click();
+    };
+
+    const handleFileSubmit = () => {
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const fileContent = reader.result;
+
+                // WebSocket을 통해 파일 내용을 전송
+                if (webSocketService && webSocketService.isConnected()) {
+                    webSocketService.sendMessage({
+                        query: "UPLOAD_CSV",
+                        fileName: selectedFile.name,
+                        fileContent: fileContent
+                    });
+                } else {
+                    console.error("데이터베이스와 연결할 수 없습니다.");
+                }
+            };
+            reader.readAsText(selectedFile); // CSV 파일을 텍스트로 읽기
+        } else {
+            setIsNotFileUploaded(true);
+        }
     };
 
     return (
@@ -51,6 +75,16 @@ const FileInput = () => {
                     submit
                 </button>
             </div>
+
+            {isNotFileUploaded && (
+                <CustomAlert
+                    subject="CAUTION"
+                    body="파일을 찾을 수 없습니다."
+                    onClose={() => {
+                        setIsNotFileUploaded(null);
+                    }}
+                />
+            )}
 
             {isNotCsvFile && (
                 <CustomAlert
