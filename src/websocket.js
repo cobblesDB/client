@@ -27,8 +27,7 @@ class WebSocketService {
     sendMessage(message) {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(message));
-        }
-        else {
+        } else {
             console.log('Connection is disabled');
         }
     }

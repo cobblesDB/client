@@ -51,6 +51,20 @@ const MainDisplay = () => {
                         });
                         localStorage.setItem("queryInfos", JSON.stringify(queryInfos));
                     }
+                    else if (input.query === "UPLOAD") {
+                        setAlertMessage(input.message);
+                        setAlertHeader(input.success);
+                        const queryInfos = JSON.parse(localStorage.getItem("queryInfos"));
+                        queryInfos.push({
+                            id: input.id,
+                            executionTime: time,
+                            query: input.query,
+                            queryData: input.queryData,
+                            success: input.success,
+                            rows: input.length
+                        });
+                        localStorage.setItem("queryInfos", JSON.stringify(queryInfos));
+                    }
                 });
                 //서버에서 key-value 테이블 결과를 얻음
                 /*
